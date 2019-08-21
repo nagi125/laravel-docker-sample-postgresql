@@ -1,0 +1,45 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    build: ./docker/nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./:/app
+    depends_on:
+      - app
+
+  app:
+    container_name: app
+    build: ./
+    environment:
+      APP_ENV: 'development'
+      APP_DEBUG: 'true'
+      LOG_CHANNEL: 'stderr'
+      DB_CONNECTION: 'pgsql'
+      DB_HOST: 'db'
+      DB_DATABASE: 'laravel_development'
+      DB_USERNAME: 'docker'
+      DB_PASSWORD: 'docker'
+    volumes:
+      - ./:/app
+    expose:
+      - 9000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:10.6
+    container_name: db
+    environment:
+      TZ: 'Asia/Tokyo'
+      POSTGRES_USER: 'docker'
+      POSTGRES_PASSWORD: 'docker'
+      POSTGRES_DB: 'laravel_development'
+    volumes:
+      - ./docker/db/data:/var/lib/postgresql/data
+      - ./docker/db/conf/postgres.conf:/etc/postgresql/postgresql.conf
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
