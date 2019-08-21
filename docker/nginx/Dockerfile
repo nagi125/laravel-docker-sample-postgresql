@@ -1,4 +1,5 @@
 FROM nginx:latest
 
-COPY conf/default.conf /etc/nginx/conf.d/default.conf
+ENV TZ Asia/Tokyo
 
+COPY conf/default.conf /etc/nginx/conf.d/default.conf
