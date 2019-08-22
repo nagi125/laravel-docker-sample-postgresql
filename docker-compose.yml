@@ -39,7 +39,6 @@ services:
       POSTGRES_DB: 'laravel_development'
     volumes:
       - ./docker/db/data:/var/lib/postgresql/data
-      - ./docker/db/conf/postgres.conf:/etc/postgresql/postgresql.conf
       - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
