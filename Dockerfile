@@ -1,6 +1,7 @@
 FROM php:7.3.6-fpm
 
 ENV TZ Asia/Tokyo
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # install Lib for composer
 RUN apt-get update -qq && \
@@ -23,7 +24,7 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 COPY . /app
 
 WORKDIR /app
-RUN composer install
+RUN /usr/local/bin/composer install
 
 # change owner
 RUN chown www-data:www-data -R ./
